@@ -13,6 +13,7 @@ export default class Jokes extends Component {
     this.state = {
       jokes: JSON.parse(window.localStorage.getItem("jokes")) || [],
     };
+    this.getJokes = this.getJokes.bind(this);
   }
   componentDidMount() {
     // console.log("cdm");
@@ -36,11 +37,15 @@ export default class Jokes extends Component {
     window.localStorage.setItem("jokes", JSON.stringify(jokes));
   }
   handleVote(id, delta) {
-    this.setState((st) => ({
-      jokes: st.jokes.map((joke) => {
-        return joke.id === id ? { ...joke, votes: joke.votes + delta } : joke;
+    this.setState(
+      (st) => ({
+        jokes: st.jokes.map((joke) => {
+          return joke.id === id ? { ...joke, votes: joke.votes + delta } : joke;
+        }),
       }),
-    }));
+      () =>
+        window.localStorage.setItem("jokes", JSON.stringify(this.state.jokes))
+    );
   }
   render() {
     return (
@@ -53,7 +58,9 @@ export default class Jokes extends Component {
               alt="emoji"
             />
           </h1>
-          <button className="jokeList-btn">new jokes</button>
+          <button onClick={this.getJokes} className="jokeList-btn">
+            new jokes
+          </button>
         </div>
         <div className="jokeList-jokes">
           {this.state.jokes.map((joke) => {
