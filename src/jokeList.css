@@ -40,3 +40,7 @@
   align-self: center;
   overflow: scroll;
 }
+
+.spinner {
+  text-align: center;
+}
