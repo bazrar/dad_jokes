@@ -51,8 +51,7 @@ export default class Jokes extends Component {
   }
 
   handleClick() {
-    this.setState({ loading: true });
-    this.getJokes();
+    this.setState({ loading: true }, () => this.getJokes());
   }
   render() {
     if (this.state.loading) {
